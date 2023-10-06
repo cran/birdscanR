@@ -360,128 +360,128 @@ preferences.</p></li>
 <div id="before-we-get-started" class="section level1">
 <h1>Before we get started</h1>
 <p>We first load the birdscanR package.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(birdscanR)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>  <span class="fu">library</span>(birdscanR)</span></code></pre></div>
 <p>Then we set our input:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set main output directory </span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  mainOutputDir <span class="ot">=</span> <span class="fu">file.path</span>(<span class="st">&quot;.&quot;</span>, <span class="st">&quot;results&quot;</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Set server and database settings</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  dbServer       <span class="ot">=</span> <span class="st">&quot;MACHINE</span><span class="sc">\\</span><span class="st">SERVERNAME&quot;</span>       <span class="co"># Set the name of your SQL server</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  dbName         <span class="ot">=</span> <span class="st">&quot;db_Name&quot;</span>                   <span class="co"># Set the name of your database</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  dbDriverChar   <span class="ot">=</span> <span class="st">&quot;SQL Server&quot;</span>                <span class="co"># Set either &quot;SQL Server&quot; or &quot;PostgreSQL&quot;</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Set timezone used by the radar/database</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Use &quot;Etc/GMT0&quot; (UTC) as radarTimeZone for birdscan v1.6 </span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># and greater as all times are in UTC as of this software version.</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  radarTimeZone  <span class="ot">=</span> <span class="st">&quot;Etc/GMT0&quot;</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Set target timezone for the radar/dataset</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: targetTimeZone = &quot;Etc/GMT-1&quot; (Etc/GMT-1 equals UTC+1)</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  targetTimeZone <span class="ot">=</span> <span class="st">&quot;Etc/GMT0&quot;</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Set list of Rf features you also want to extract</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Vector with RF features to extract. Feature IDs can be found in the  </span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co"># rffeatures table in the sql database.  </span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Get wing beat frequency and credibility: c(167, 168)</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Set to NULL to not extract any.</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  listOfRfFeaturesToExtract <span class="ot">=</span> <span class="cn">NULL</span> </span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Geographic location of the radar measurements - c(Latitude, Longitude)</span></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  siteLocation <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">47.494427</span>, <span class="fl">8.716432</span>)</span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Set type of twilight to use for day/night decision, i.e., &quot;sun&quot; or &quot;civil&quot;</span></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  sunOrCivil <span class="ot">=</span> <span class="st">&quot;civil&quot;</span></span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter settings</span></span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Set desired pulseLength modes </span></span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>    pulseLengthSelection <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;S&quot;</span>)</span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Set desired rotation modes (multiple simultaneous selections possible)</span></span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  <span class="co"># options: 1 (rotation), 0 (nonrotation)</span></span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>    rotationSelection    <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>)</span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Set classes to use in the analysis</span></span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Example: classSelection = c(&quot;passerine_type&quot;, &quot;wader_type&quot;, &quot;swift_type&quot;, </span></span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>  <span class="co">#                             &quot;large_bird&quot;, &quot;unid_bird&quot;, &quot;bird_flock&quot;, </span></span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>  <span class="co">#                             &quot;insect&quot;, &quot;nonbio&quot;, &quot;precipitation&quot;)</span></span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>    classSelection       <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;insect&quot;</span>)</span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Set the classification propability cutoff (between 0 and 1) - only objects </span></span>
-<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>  <span class="co"># for which the chosen label also has a classification probability &gt; than the </span></span>
-<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>  <span class="co"># cutoff are retained; Set to NULL to not subset according to probability.</span></span>
-<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>    classProbCutoff      <span class="ot">=</span> <span class="cn">NULL</span></span>
-<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Set the altitude range (in meters agl)</span></span>
-<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>    altitudeRange        <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">1000</span>)</span>
-<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Set the time range for echodata (in the targetTimeZone) </span></span>
-<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>  <span class="co"># use format &quot;yyyy-MM-dd hh:mm&quot;</span></span>
-<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>    timeRangeData        <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;2021-01-15 00:00&quot;</span>, <span class="st">&quot;2021-01-31 00:00&quot;</span>)</span>
-<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Set whether to get the manual blind time from:</span></span>
-<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>  <span class="co"># &quot;mandb&quot;: the db file;  </span></span>
-<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>  <span class="co"># &quot;csv&quot;  : a separate csv file </span></span>
-<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>    manBlindSource       <span class="ot">=</span> <span class="st">&quot;csv&quot;</span></span>
-<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Set paths to manual blind times file, if manBlindSource == &quot;csv&quot;</span></span>
-<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (manBlindSource <span class="sc">%in%</span> <span class="st">&quot;csv&quot;</span>){</span>
-<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>      manblindFile <span class="ot">=</span> <span class="fu">file.path</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;manualBlindTimes.csv&quot;</span>)</span>
-<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Set whether to use the echoValidator - If set to TRUE, echoes labelled </span></span>
-<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>  <span class="co"># by the echo validator as “non-bio scatterer” will be excluded.</span></span>
-<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>    useEchoValidator <span class="ot">=</span> <span class="cn">FALSE</span></span>
-<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a><span class="co"># MTR calculation settings</span></span>
-<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
-<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Set whether to save the blind times to file</span></span>
-<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>    saveBlindTimes <span class="ot">=</span> <span class="cn">TRUE</span></span>
-<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Set altitude Range and Bin Size for the MTR calculations</span></span>
-<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>    altitudeRange.mtr <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">1025</span>)</span>
-<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>    altitudeBinSize   <span class="ot">=</span> <span class="dv">50</span></span>
-<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>  <span class="co"># time range for timeBins (targetTimeZone) - format: &quot;yyyy-MM-dd hh:mm&quot;</span></span>
-<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>    timeRangesTimeBins  <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;2021-01-15 00:00&quot;</span>, <span class="st">&quot;2021-01-31 00:00&quot;</span>)</span>
-<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>  <span class="co"># timeBin size in seconds</span></span>
-<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>    timeBinduration_sec <span class="ot">=</span> <span class="dv">3600</span></span>
-<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>  <span class="co"># set blindtime types which should not be treated as blindtime but MTR = 0</span></span>
-<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>    blindTimeAsMtrZero <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;rain&quot;</span>)</span>
-<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a>  <span class="co"># cutoff for proportional observation times: Ignore TimeBins where </span></span>
-<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>  <span class="co"># &quot;observationTime/timeBinDuration &lt; propObsTimeCutoff&quot;</span></span>
-<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>  <span class="co"># in &#39;computeMTR&#39; only used if parameter &#39;computePerDayNight&#39; is set to</span></span>
-<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>  <span class="co"># &#39;TRUE&#39; and timeBins are shorter than day/night. In this case timeBins </span></span>
-<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a>  <span class="co"># are combined by day/night and only time bins with a proportional </span></span>
-<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a>  <span class="co"># observation time greater than the cutoff will be used to compute the </span></span>
-<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>  <span class="co"># day/night MTR and spread.</span></span>
-<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a>  <span class="co"># set value from 0-1</span></span>
-<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>    propObsTimeCutoff <span class="ot">=</span> <span class="fl">0.2</span></span>
-<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Set classes for which you want the MTR</span></span>
-<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Example: classSelection = c(&quot;passerine_type&quot;, &quot;wader_type&quot;, &quot;large_bird&quot;)</span></span>
-<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>    <span class="co"># classSelection = c(&quot;passerine_type&quot;, &quot;wader_type&quot;, &quot;swift_type&quot;, </span></span>
-<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a>    <span class="co">#                    &quot;large_bird&quot;, &quot;unid_bird&quot;, &quot;bird_flock&quot;, </span></span>
-<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>    <span class="co">#                    &quot;insect&quot;, &quot;nonbio&quot;, &quot;precipitation&quot;)</span></span>
-<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a>    classSelection.mtr <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;insect&quot;</span>)</span>
-<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Set whether to compute MTR per timebin or per day/night</span></span>
-<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a>  <span class="co"># TRUE: MTR is computed per day and night;</span></span>
-<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a>  <span class="co"># FALSE: MTR is computed for each time bin   </span></span>
-<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a>    computePerDayNight <span class="ot">=</span> <span class="cn">FALSE</span></span>
-<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Set whether to save the MTR to file</span></span>
-<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a>    saveMTR2File <span class="ot">=</span> <span class="cn">TRUE</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># Set main output directory </span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  mainOutputDir <span class="ot">=</span> <span class="fu">file.path</span>(<span class="st">&quot;.&quot;</span>, <span class="st">&quot;results&quot;</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co"># Set server and database settings</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  dbServer       <span class="ot">=</span> <span class="st">&quot;MACHINE</span><span class="sc">\\</span><span class="st">SERVERNAME&quot;</span>       <span class="co"># Set the name of your SQL server</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>  dbName         <span class="ot">=</span> <span class="st">&quot;db_Name&quot;</span>                   <span class="co"># Set the name of your database</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>  dbDriverChar   <span class="ot">=</span> <span class="st">&quot;SQL Server&quot;</span>                <span class="co"># Set either &quot;SQL Server&quot; or &quot;PostgreSQL&quot;</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co"># Set timezone used by the radar/database</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co"># Use &quot;Etc/GMT0&quot; (UTC) as radarTimeZone for birdscan v1.6 </span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co"># and greater as all times are in UTC as of this software version.</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>  radarTimeZone  <span class="ot">=</span> <span class="st">&quot;Etc/GMT0&quot;</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co"># Set target timezone for the radar/dataset</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co"># Example: targetTimeZone = &quot;Etc/GMT-1&quot; (Etc/GMT-1 equals UTC+1)</span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>  targetTimeZone <span class="ot">=</span> <span class="st">&quot;Etc/GMT0&quot;</span></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="co"># Set list of Rf features you also want to extract</span></span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="co"># Vector with RF features to extract. Feature IDs can be found in the  </span></span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="co"># rffeatures table in the sql database.  </span></span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a><span class="co"># Example: Get wing beat frequency and credibility: c(167, 168)</span></span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="co"># Set to NULL to not extract any.</span></span>
+<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a>  listOfRfFeaturesToExtract <span class="ot">=</span> <span class="cn">NULL</span> </span>
+<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a>  </span>
+<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a><span class="co"># Geographic location of the radar measurements - c(Latitude, Longitude)</span></span>
+<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a>  siteLocation <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">47.494427</span>, <span class="fl">8.716432</span>)</span>
+<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a>  </span>
+<span id="cb2-34"><a href="#cb2-34" tabindex="-1"></a><span class="co"># Set type of twilight to use for day/night decision, i.e., &quot;sun&quot; or &quot;civil&quot;</span></span>
+<span id="cb2-35"><a href="#cb2-35" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb2-36"><a href="#cb2-36" tabindex="-1"></a>  sunOrCivil <span class="ot">=</span> <span class="st">&quot;civil&quot;</span></span>
+<span id="cb2-37"><a href="#cb2-37" tabindex="-1"></a>  </span>
+<span id="cb2-38"><a href="#cb2-38" tabindex="-1"></a><span class="co"># Filter settings</span></span>
+<span id="cb2-39"><a href="#cb2-39" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb2-40"><a href="#cb2-40" tabindex="-1"></a>  <span class="co"># Set desired pulseLength modes </span></span>
+<span id="cb2-41"><a href="#cb2-41" tabindex="-1"></a>    pulseLengthSelection <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;S&quot;</span>)</span>
+<span id="cb2-42"><a href="#cb2-42" tabindex="-1"></a>  </span>
+<span id="cb2-43"><a href="#cb2-43" tabindex="-1"></a>  <span class="co"># Set desired rotation modes (multiple simultaneous selections possible)</span></span>
+<span id="cb2-44"><a href="#cb2-44" tabindex="-1"></a>  <span class="co"># options: 1 (rotation), 0 (nonrotation)</span></span>
+<span id="cb2-45"><a href="#cb2-45" tabindex="-1"></a>    rotationSelection    <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>)</span>
+<span id="cb2-46"><a href="#cb2-46" tabindex="-1"></a>    </span>
+<span id="cb2-47"><a href="#cb2-47" tabindex="-1"></a>  <span class="co"># Set classes to use in the analysis</span></span>
+<span id="cb2-48"><a href="#cb2-48" tabindex="-1"></a>  <span class="co"># Example: classSelection = c(&quot;passerine_type&quot;, &quot;wader_type&quot;, &quot;swift_type&quot;, </span></span>
+<span id="cb2-49"><a href="#cb2-49" tabindex="-1"></a>  <span class="co">#                             &quot;large_bird&quot;, &quot;unid_bird&quot;, &quot;bird_flock&quot;, </span></span>
+<span id="cb2-50"><a href="#cb2-50" tabindex="-1"></a>  <span class="co">#                             &quot;insect&quot;, &quot;nonbio&quot;, &quot;precipitation&quot;)</span></span>
+<span id="cb2-51"><a href="#cb2-51" tabindex="-1"></a>    classSelection       <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;insect&quot;</span>)</span>
+<span id="cb2-52"><a href="#cb2-52" tabindex="-1"></a>  </span>
+<span id="cb2-53"><a href="#cb2-53" tabindex="-1"></a>  <span class="co"># Set the classification propability cutoff (between 0 and 1) - only objects </span></span>
+<span id="cb2-54"><a href="#cb2-54" tabindex="-1"></a>  <span class="co"># for which the chosen label also has a classification probability &gt; than the </span></span>
+<span id="cb2-55"><a href="#cb2-55" tabindex="-1"></a>  <span class="co"># cutoff are retained; Set to NULL to not subset according to probability.</span></span>
+<span id="cb2-56"><a href="#cb2-56" tabindex="-1"></a>    classProbCutoff      <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb2-57"><a href="#cb2-57" tabindex="-1"></a>  </span>
+<span id="cb2-58"><a href="#cb2-58" tabindex="-1"></a>  <span class="co"># Set the altitude range (in meters agl)</span></span>
+<span id="cb2-59"><a href="#cb2-59" tabindex="-1"></a>    altitudeRange        <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">1000</span>)</span>
+<span id="cb2-60"><a href="#cb2-60" tabindex="-1"></a>  </span>
+<span id="cb2-61"><a href="#cb2-61" tabindex="-1"></a>  <span class="co"># Set the time range for echodata (in the targetTimeZone) </span></span>
+<span id="cb2-62"><a href="#cb2-62" tabindex="-1"></a>  <span class="co"># use format &quot;yyyy-MM-dd hh:mm&quot;</span></span>
+<span id="cb2-63"><a href="#cb2-63" tabindex="-1"></a>    timeRangeData        <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;2021-01-15 00:00&quot;</span>, <span class="st">&quot;2021-01-31 00:00&quot;</span>)</span>
+<span id="cb2-64"><a href="#cb2-64" tabindex="-1"></a>  </span>
+<span id="cb2-65"><a href="#cb2-65" tabindex="-1"></a>  <span class="co"># Set whether to get the manual blind time from:</span></span>
+<span id="cb2-66"><a href="#cb2-66" tabindex="-1"></a>  <span class="co"># &quot;mandb&quot;: the db file;  </span></span>
+<span id="cb2-67"><a href="#cb2-67" tabindex="-1"></a>  <span class="co"># &quot;csv&quot;  : a separate csv file </span></span>
+<span id="cb2-68"><a href="#cb2-68" tabindex="-1"></a>    manBlindSource       <span class="ot">=</span> <span class="st">&quot;csv&quot;</span></span>
+<span id="cb2-69"><a href="#cb2-69" tabindex="-1"></a>    </span>
+<span id="cb2-70"><a href="#cb2-70" tabindex="-1"></a>  <span class="co"># Set paths to manual blind times file, if manBlindSource == &quot;csv&quot;</span></span>
+<span id="cb2-71"><a href="#cb2-71" tabindex="-1"></a>    <span class="cf">if</span> (manBlindSource <span class="sc">%in%</span> <span class="st">&quot;csv&quot;</span>){</span>
+<span id="cb2-72"><a href="#cb2-72" tabindex="-1"></a>      manblindFile <span class="ot">=</span> <span class="fu">file.path</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;manualBlindTimes.csv&quot;</span>)</span>
+<span id="cb2-73"><a href="#cb2-73" tabindex="-1"></a>    }</span>
+<span id="cb2-74"><a href="#cb2-74" tabindex="-1"></a>    </span>
+<span id="cb2-75"><a href="#cb2-75" tabindex="-1"></a>  <span class="co"># Set whether to use the echoValidator - If set to TRUE, echoes labelled </span></span>
+<span id="cb2-76"><a href="#cb2-76" tabindex="-1"></a>  <span class="co"># by the echo validator as “non-bio scatterer” will be excluded.</span></span>
+<span id="cb2-77"><a href="#cb2-77" tabindex="-1"></a>    useEchoValidator <span class="ot">=</span> <span class="cn">FALSE</span></span>
+<span id="cb2-78"><a href="#cb2-78" tabindex="-1"></a>    </span>
+<span id="cb2-79"><a href="#cb2-79" tabindex="-1"></a><span class="co"># MTR calculation settings</span></span>
+<span id="cb2-80"><a href="#cb2-80" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb2-81"><a href="#cb2-81" tabindex="-1"></a>  <span class="co"># Set whether to save the blind times to file</span></span>
+<span id="cb2-82"><a href="#cb2-82" tabindex="-1"></a>    saveBlindTimes <span class="ot">=</span> <span class="cn">TRUE</span></span>
+<span id="cb2-83"><a href="#cb2-83" tabindex="-1"></a>    </span>
+<span id="cb2-84"><a href="#cb2-84" tabindex="-1"></a>  <span class="co"># Set altitude Range and Bin Size for the MTR calculations</span></span>
+<span id="cb2-85"><a href="#cb2-85" tabindex="-1"></a>    altitudeRange.mtr <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">1025</span>)</span>
+<span id="cb2-86"><a href="#cb2-86" tabindex="-1"></a>    altitudeBinSize   <span class="ot">=</span> <span class="dv">50</span></span>
+<span id="cb2-87"><a href="#cb2-87" tabindex="-1"></a>  </span>
+<span id="cb2-88"><a href="#cb2-88" tabindex="-1"></a>  <span class="co"># time range for timeBins (targetTimeZone) - format: &quot;yyyy-MM-dd hh:mm&quot;</span></span>
+<span id="cb2-89"><a href="#cb2-89" tabindex="-1"></a>    timeRangesTimeBins  <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;2021-01-15 00:00&quot;</span>, <span class="st">&quot;2021-01-31 00:00&quot;</span>)</span>
+<span id="cb2-90"><a href="#cb2-90" tabindex="-1"></a>  </span>
+<span id="cb2-91"><a href="#cb2-91" tabindex="-1"></a>  <span class="co"># timeBin size in seconds</span></span>
+<span id="cb2-92"><a href="#cb2-92" tabindex="-1"></a>    timeBinduration_sec <span class="ot">=</span> <span class="dv">3600</span></span>
+<span id="cb2-93"><a href="#cb2-93" tabindex="-1"></a>  </span>
+<span id="cb2-94"><a href="#cb2-94" tabindex="-1"></a>  <span class="co"># set blindtime types which should not be treated as blindtime but MTR = 0</span></span>
+<span id="cb2-95"><a href="#cb2-95" tabindex="-1"></a>    blindTimeAsMtrZero <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;rain&quot;</span>)</span>
+<span id="cb2-96"><a href="#cb2-96" tabindex="-1"></a>    </span>
+<span id="cb2-97"><a href="#cb2-97" tabindex="-1"></a>  <span class="co"># cutoff for proportional observation times: Ignore TimeBins where </span></span>
+<span id="cb2-98"><a href="#cb2-98" tabindex="-1"></a>  <span class="co"># &quot;observationTime/timeBinDuration &lt; propObsTimeCutoff&quot;</span></span>
+<span id="cb2-99"><a href="#cb2-99" tabindex="-1"></a>  <span class="co"># in &#39;computeMTR&#39; only used if parameter &#39;computePerDayNight&#39; is set to</span></span>
+<span id="cb2-100"><a href="#cb2-100" tabindex="-1"></a>  <span class="co"># &#39;TRUE&#39; and timeBins are shorter than day/night. In this case timeBins </span></span>
+<span id="cb2-101"><a href="#cb2-101" tabindex="-1"></a>  <span class="co"># are combined by day/night and only time bins with a proportional </span></span>
+<span id="cb2-102"><a href="#cb2-102" tabindex="-1"></a>  <span class="co"># observation time greater than the cutoff will be used to compute the </span></span>
+<span id="cb2-103"><a href="#cb2-103" tabindex="-1"></a>  <span class="co"># day/night MTR and spread.</span></span>
+<span id="cb2-104"><a href="#cb2-104" tabindex="-1"></a>  <span class="co"># set value from 0-1</span></span>
+<span id="cb2-105"><a href="#cb2-105" tabindex="-1"></a>    propObsTimeCutoff <span class="ot">=</span> <span class="fl">0.2</span></span>
+<span id="cb2-106"><a href="#cb2-106" tabindex="-1"></a>  </span>
+<span id="cb2-107"><a href="#cb2-107" tabindex="-1"></a>  <span class="co"># Set classes for which you want the MTR</span></span>
+<span id="cb2-108"><a href="#cb2-108" tabindex="-1"></a>  <span class="co"># Example: classSelection = c(&quot;passerine_type&quot;, &quot;wader_type&quot;, &quot;large_bird&quot;)</span></span>
+<span id="cb2-109"><a href="#cb2-109" tabindex="-1"></a>    <span class="co"># classSelection = c(&quot;passerine_type&quot;, &quot;wader_type&quot;, &quot;swift_type&quot;, </span></span>
+<span id="cb2-110"><a href="#cb2-110" tabindex="-1"></a>    <span class="co">#                    &quot;large_bird&quot;, &quot;unid_bird&quot;, &quot;bird_flock&quot;, </span></span>
+<span id="cb2-111"><a href="#cb2-111" tabindex="-1"></a>    <span class="co">#                    &quot;insect&quot;, &quot;nonbio&quot;, &quot;precipitation&quot;)</span></span>
+<span id="cb2-112"><a href="#cb2-112" tabindex="-1"></a>    classSelection.mtr <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;insect&quot;</span>)</span>
+<span id="cb2-113"><a href="#cb2-113" tabindex="-1"></a>  </span>
+<span id="cb2-114"><a href="#cb2-114" tabindex="-1"></a>  <span class="co"># Set whether to compute MTR per timebin or per day/night</span></span>
+<span id="cb2-115"><a href="#cb2-115" tabindex="-1"></a>  <span class="co"># TRUE: MTR is computed per day and night;</span></span>
+<span id="cb2-116"><a href="#cb2-116" tabindex="-1"></a>  <span class="co"># FALSE: MTR is computed for each time bin   </span></span>
+<span id="cb2-117"><a href="#cb2-117" tabindex="-1"></a>    computePerDayNight <span class="ot">=</span> <span class="cn">FALSE</span></span>
+<span id="cb2-118"><a href="#cb2-118" tabindex="-1"></a>    </span>
+<span id="cb2-119"><a href="#cb2-119" tabindex="-1"></a>  <span class="co"># Set whether to save the MTR to file</span></span>
+<span id="cb2-120"><a href="#cb2-120" tabindex="-1"></a>    saveMTR2File <span class="ot">=</span> <span class="cn">TRUE</span></span></code></pre></div>
 <hr />
 </div>
 <div id="extract-the-relevant-data-from-the-sql-database" class="section level1">
@@ -493,26 +493,26 @@ If requested, it will also write it to an .rds file in the output
 directory you chose. The file is automatically named to:
 <code>[yourDbName]_DataExtract.rds</code>, and written to the main
 output directory you defined in the input settings.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print progress message</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="fu">paste0</span>(<span class="st">&quot;Extracting data from &quot;</span>, dbName))</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Get data</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  dbData <span class="ot">=</span> <span class="fu">extractDbData</span>(<span class="at">dbDriverChar                   =</span> dbDriverChar,</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                         <span class="at">dbServer                       =</span> dbServer, </span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>                         <span class="at">dbName                         =</span> dbName, </span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>                         <span class="at">saveDbToFile                   =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>                         <span class="at">dbDataDir                      =</span> mainOutputDir,</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>                         <span class="at">radarTimeZone                  =</span> radarTimeZone,</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>                         <span class="at">targetTimeZone                 =</span> targetTimeZone,</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>                         <span class="at">listOfRfFeaturesToExtract      =</span> listOfRfFeaturesToExtract,</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>                         <span class="at">siteLocation                   =</span> siteLocation, </span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>                         <span class="at">sunOrCivil                     =</span> sunOrCivil)</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Print progress message</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="fu">paste0</span>(<span class="st">&quot;Finished extracting data from &quot;</span>, dbName))</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Print progress message</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="fu">message</span>(<span class="fu">paste0</span>(<span class="st">&quot;Extracting data from &quot;</span>, dbName))</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co"># Get data</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  dbData <span class="ot">=</span> <span class="fu">extractDbData</span>(<span class="at">dbDriverChar                   =</span> dbDriverChar,</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>                         <span class="at">dbServer                       =</span> dbServer, </span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>                         <span class="at">dbName                         =</span> dbName, </span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>                         <span class="at">saveDbToFile                   =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>                         <span class="at">dbDataDir                      =</span> mainOutputDir,</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>                         <span class="at">radarTimeZone                  =</span> radarTimeZone,</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>                         <span class="at">targetTimeZone                 =</span> targetTimeZone,</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>                         <span class="at">listOfRfFeaturesToExtract      =</span> listOfRfFeaturesToExtract,</span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>                         <span class="at">siteLocation                   =</span> siteLocation, </span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>                         <span class="at">sunOrCivil                     =</span> sunOrCivil)</span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>  </span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co"># Print progress message</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a>  <span class="fu">message</span>(<span class="fu">paste0</span>(<span class="st">&quot;Finished extracting data from &quot;</span>, dbName))</span></code></pre></div>
 <hr />
 </div>
 <div id="filter-the-extracted-data-to-what-you-are-interested-in" class="section level1">
@@ -520,142 +520,142 @@ output directory you defined in the input settings.</p>
 <p>Filtering both the protocol and echo data (extracted in the previous
 step) can be done in one step with the function
 <code>filterData()</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print progress message</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="fu">paste0</span>(<span class="st">&quot;Filtering data from &quot;</span>, dbName))</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Get current manual blind times </span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># CASE: manBlindSource == &quot;csv&quot;</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ===========================================================================</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (manBlindSource <span class="sc">%in%</span> <span class="st">&quot;csv&quot;</span>){</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Read manual blindtimes from csv File </span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>      <span class="co"># csv contains one row per blindtime and 3 columns </span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>      <span class="co"># (start of blindtime, stop of blindtime, type of blindtime)</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>      <span class="co"># times have to be of format &#39;yyyy-MM-dd hh:mm:ss&#39;</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>      <span class="co"># =======================================================================</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        cManualBlindTimes <span class="ot">=</span> <span class="fu">loadManualBlindTimes</span>(<span class="at">filePath     =</span> manblindFile,</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">blindTimesTZ =</span> radarTimeZone,</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">targetTZ     =</span> targetTimeZone)</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># CASE: manBlindSource == &quot;mandb&quot;</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ===========================================================================</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> <span class="cf">if</span> (manBlindSource <span class="sc">%in%</span> <span class="st">&quot;mandb&quot;</span>){</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>      cManualBlindTimes <span class="ot">=</span> dbData<span class="sc">$</span>manualVisibilityTable</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter the data</span></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  filteredEchoProtocol <span class="ot">=</span> <span class="fu">filterData</span>(<span class="at">echoData           =</span> dbData<span class="sc">$</span>echoData,</span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">protocolData       =</span> dbData<span class="sc">$</span>protocolData, </span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">pulseTypeSelection =</span> pulseLengthSelection, </span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">rotationSelection  =</span> rotationSelection,</span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">timeRangeTargetTZ  =</span> timeRangeData,</span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">targetTimeZone     =</span> targetTimeZone,</span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">classSelection     =</span> classSelection, </span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">classProbCutOff    =</span> classProbCutoff, </span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">altitudeRange_AGL  =</span> altitudeRange, </span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">manualBlindTimes   =</span> cManualBlindTimes, </span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">echoValidator      =</span> useEchoValidator)</span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the filtered echo and protocol data to the database data list</span></span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>  dbData<span class="sc">$</span>echoData     <span class="ot">=</span> filteredEchoProtocol<span class="sc">$</span>echoData</span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>  dbData<span class="sc">$</span>protocolData <span class="ot">=</span> filteredEchoProtocol<span class="sc">$</span>protocolData</span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the filtered dataset to a file, including also all filter settings, </span></span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a><span class="co"># and the other tables in the original dataset</span></span>
-<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
-<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>  dbData<span class="sc">$</span>echoFiltersApplied <span class="ot">=</span> <span class="fu">list</span>(<span class="at">classProbCutoff    =</span> classProbCutoff,</span>
-<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">altitudeRange_AGL  =</span> altitudeRange,</span>
-<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">targetTimeZone     =</span> targetTimeZone,</span>
-<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">timeRangeEchoData  =</span> timeRangeData,</span>
-<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">useEchoValidator   =</span> useEchoValidator)</span>
-<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(classProbCutoff)){classProbCutoff.char <span class="ot">=</span> <span class="dv">0</span>} <span class="cf">else</span> {classProbCutoff.char <span class="ot">=</span> classProbCutoff}</span>
-<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>  outputFile <span class="ot">=</span> <span class="fu">file.path</span>(mainOutputDir, </span>
-<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">paste0</span>(dbName, <span class="st">&quot;_filtered_&quot;</span>, </span>
-<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;cut&quot;</span>, classProbCutoff.char, <span class="st">&quot;_&quot;</span>,</span>
-<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;altRange&quot;</span>, <span class="fu">paste</span>(altitudeRange, <span class="at">collapse =</span> <span class="st">&quot;to&quot;</span>), <span class="st">&quot;_&quot;</span>, </span>
-<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;timeRange&quot;</span>, <span class="fu">paste</span>(<span class="fu">format</span>(<span class="fu">as.Date</span>(timeRangeData), <span class="st">&quot;%Y%m%d&quot;</span>), </span>
-<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">collapse =</span> <span class="st">&quot;to&quot;</span>), </span>
-<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;_&quot;</span>,</span>
-<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;echoVal&quot;</span>, <span class="fu">as.character</span>(useEchoValidator), </span>
-<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;.rds&quot;</span>))</span>
-<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(dbData, outputFile)</span>
-<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="co"># Print progress message</span></span>
-<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
-<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="fu">paste0</span>(<span class="st">&quot;Finished filtering data from &quot;</span>, dbName))</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Print progress message</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">message</span>(<span class="fu">paste0</span>(<span class="st">&quot;Filtering data from &quot;</span>, dbName))</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co"># Get current manual blind times </span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  <span class="co"># CASE: manBlindSource == &quot;csv&quot;</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  <span class="co"># ===========================================================================</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>    <span class="cf">if</span> (manBlindSource <span class="sc">%in%</span> <span class="st">&quot;csv&quot;</span>){</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>      <span class="co"># Read manual blindtimes from csv File </span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>      <span class="co"># csv contains one row per blindtime and 3 columns </span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>      <span class="co"># (start of blindtime, stop of blindtime, type of blindtime)</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>      <span class="co"># times have to be of format &#39;yyyy-MM-dd hh:mm:ss&#39;</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>      <span class="co"># =======================================================================</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>        cManualBlindTimes <span class="ot">=</span> <span class="fu">loadManualBlindTimes</span>(<span class="at">filePath     =</span> manblindFile,</span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>                                                 <span class="at">blindTimesTZ =</span> radarTimeZone,</span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>                                                 <span class="at">targetTZ     =</span> targetTimeZone)</span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>  <span class="co"># CASE: manBlindSource == &quot;mandb&quot;</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>  <span class="co"># ===========================================================================</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>    } <span class="cf">else</span> <span class="cf">if</span> (manBlindSource <span class="sc">%in%</span> <span class="st">&quot;mandb&quot;</span>){</span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a>      cManualBlindTimes <span class="ot">=</span> dbData<span class="sc">$</span>manualVisibilityTable</span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a>    }</span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="co"># Filter the data</span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a>  filteredEchoProtocol <span class="ot">=</span> <span class="fu">filterData</span>(<span class="at">echoData           =</span> dbData<span class="sc">$</span>echoData,</span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a>                                    <span class="at">protocolData       =</span> dbData<span class="sc">$</span>protocolData, </span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a>                                    <span class="at">pulseTypeSelection =</span> pulseLengthSelection, </span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a>                                    <span class="at">rotationSelection  =</span> rotationSelection,</span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a>                                    <span class="at">timeRangeTargetTZ  =</span> timeRangeData,</span>
+<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a>                                    <span class="at">targetTimeZone     =</span> targetTimeZone,</span>
+<span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a>                                    <span class="at">classSelection     =</span> classSelection, </span>
+<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a>                                    <span class="at">classProbCutOff    =</span> classProbCutoff, </span>
+<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a>                                    <span class="at">altitudeRange_AGL  =</span> altitudeRange, </span>
+<span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a>                                    <span class="at">manualBlindTimes   =</span> cManualBlindTimes, </span>
+<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a>                                    <span class="at">echoValidator      =</span> useEchoValidator)</span>
+<span id="cb4-37"><a href="#cb4-37" tabindex="-1"></a></span>
+<span id="cb4-38"><a href="#cb4-38" tabindex="-1"></a><span class="co"># Save the filtered echo and protocol data to the database data list</span></span>
+<span id="cb4-39"><a href="#cb4-39" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb4-40"><a href="#cb4-40" tabindex="-1"></a>  dbData<span class="sc">$</span>echoData     <span class="ot">=</span> filteredEchoProtocol<span class="sc">$</span>echoData</span>
+<span id="cb4-41"><a href="#cb4-41" tabindex="-1"></a>  dbData<span class="sc">$</span>protocolData <span class="ot">=</span> filteredEchoProtocol<span class="sc">$</span>protocolData</span>
+<span id="cb4-42"><a href="#cb4-42" tabindex="-1"></a>  </span>
+<span id="cb4-43"><a href="#cb4-43" tabindex="-1"></a><span class="co"># Save the filtered dataset to a file, including also all filter settings, </span></span>
+<span id="cb4-44"><a href="#cb4-44" tabindex="-1"></a><span class="co"># and the other tables in the original dataset</span></span>
+<span id="cb4-45"><a href="#cb4-45" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb4-46"><a href="#cb4-46" tabindex="-1"></a>  dbData<span class="sc">$</span>echoFiltersApplied <span class="ot">=</span> <span class="fu">list</span>(<span class="at">classProbCutoff    =</span> classProbCutoff,</span>
+<span id="cb4-47"><a href="#cb4-47" tabindex="-1"></a>                                   <span class="at">altitudeRange_AGL  =</span> altitudeRange,</span>
+<span id="cb4-48"><a href="#cb4-48" tabindex="-1"></a>                                   <span class="at">targetTimeZone     =</span> targetTimeZone,</span>
+<span id="cb4-49"><a href="#cb4-49" tabindex="-1"></a>                                   <span class="at">timeRangeEchoData  =</span> timeRangeData,</span>
+<span id="cb4-50"><a href="#cb4-50" tabindex="-1"></a>                                   <span class="at">useEchoValidator   =</span> useEchoValidator)</span>
+<span id="cb4-51"><a href="#cb4-51" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(classProbCutoff)){classProbCutoff.char <span class="ot">=</span> <span class="dv">0</span>} <span class="cf">else</span> {classProbCutoff.char <span class="ot">=</span> classProbCutoff}</span>
+<span id="cb4-52"><a href="#cb4-52" tabindex="-1"></a>  outputFile <span class="ot">=</span> <span class="fu">file.path</span>(mainOutputDir, </span>
+<span id="cb4-53"><a href="#cb4-53" tabindex="-1"></a>                         <span class="fu">paste0</span>(dbName, <span class="st">&quot;_filtered_&quot;</span>, </span>
+<span id="cb4-54"><a href="#cb4-54" tabindex="-1"></a>                                <span class="st">&quot;cut&quot;</span>, classProbCutoff.char, <span class="st">&quot;_&quot;</span>,</span>
+<span id="cb4-55"><a href="#cb4-55" tabindex="-1"></a>                                <span class="st">&quot;altRange&quot;</span>, <span class="fu">paste</span>(altitudeRange, <span class="at">collapse =</span> <span class="st">&quot;to&quot;</span>), <span class="st">&quot;_&quot;</span>, </span>
+<span id="cb4-56"><a href="#cb4-56" tabindex="-1"></a>                                <span class="st">&quot;timeRange&quot;</span>, <span class="fu">paste</span>(<span class="fu">format</span>(<span class="fu">as.Date</span>(timeRangeData), <span class="st">&quot;%Y%m%d&quot;</span>), </span>
+<span id="cb4-57"><a href="#cb4-57" tabindex="-1"></a>                                                   <span class="at">collapse =</span> <span class="st">&quot;to&quot;</span>), </span>
+<span id="cb4-58"><a href="#cb4-58" tabindex="-1"></a>                                <span class="st">&quot;_&quot;</span>,</span>
+<span id="cb4-59"><a href="#cb4-59" tabindex="-1"></a>                                <span class="st">&quot;echoVal&quot;</span>, <span class="fu">as.character</span>(useEchoValidator), </span>
+<span id="cb4-60"><a href="#cb4-60" tabindex="-1"></a>                                <span class="st">&quot;.rds&quot;</span>))</span>
+<span id="cb4-61"><a href="#cb4-61" tabindex="-1"></a>  <span class="fu">saveRDS</span>(dbData, outputFile)</span>
+<span id="cb4-62"><a href="#cb4-62" tabindex="-1"></a>  </span>
+<span id="cb4-63"><a href="#cb4-63" tabindex="-1"></a><span class="co"># Print progress message</span></span>
+<span id="cb4-64"><a href="#cb4-64" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb4-65"><a href="#cb4-65" tabindex="-1"></a>  <span class="fu">message</span>(<span class="fu">paste0</span>(<span class="st">&quot;Finished filtering data from &quot;</span>, dbName))</span></code></pre></div>
 </div>
 <div id="calculate-the-activity-or-migration-traffic-rates" class="section level1">
 <h1>Calculate the activity or migration traffic rates</h1>
 <p>Calculation of the migration traffic rates is done with the function
 computeMTR().</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print information message</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># =====================================================================</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (computePerDayNight){</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">message</span>(<span class="fu">paste0</span>(<span class="st">&quot;Computing MTR for &quot;</span>, dbName, <span class="st">&quot;, using:</span><span class="sc">\n</span><span class="st">&quot;</span>, </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Classes: &quot;</span>, <span class="fu">paste</span>(classSelection.mtr, <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;For altitudes: &quot;</span>, <span class="fu">paste</span>(altitudeRange.mtr, <span class="at">collapse =</span> <span class="st">&quot; to &quot;</span>), </span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot; in bins of &quot;</span>, altitudeBinSize, <span class="st">&quot;m</span><span class="sc">\n</span><span class="st">&quot;</span>, </span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;on a nightly/daily basis&quot;</span>))</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">message</span>(<span class="fu">paste0</span>(<span class="st">&quot;Computing MTR for &quot;</span>, dbName, <span class="st">&quot;, using:</span><span class="sc">\n</span><span class="st">&quot;</span>, </span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Classes: &quot;</span>, <span class="fu">paste</span>(classSelection.mtr, <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;For altitudes: &quot;</span>, <span class="fu">paste</span>(altitudeRange.mtr, <span class="at">collapse =</span> <span class="st">&quot; to &quot;</span>), </span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot; in bins of &quot;</span>, altitudeBinSize, <span class="st">&quot;m</span><span class="sc">\n</span><span class="st">&quot;</span>, </span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Timebins of: &quot;</span>, timeBinduration_sec, <span class="st">&quot; seconds or &quot;</span>,</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>                   timeBinduration_sec<span class="sc">/</span><span class="dv">3600</span>, <span class="st">&quot; hours&quot;</span>))</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the MTR</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co"># =====================================================================</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  mtr <span class="ot">=</span> <span class="fu">computeMTR</span>(<span class="at">dbName                      =</span> dbName,</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>                   <span class="at">echoes                      =</span> dbData<span class="sc">$</span>echoData, </span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>                   <span class="at">classSelection              =</span> classSelection.mtr, </span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>                   <span class="at">altitudeRange               =</span> altitudeRange.mtr,</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>                   <span class="at">altitudeBinSize             =</span> altitudeBinSize, </span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>                   <span class="at">timeRange                   =</span> timeRangesTimeBins, </span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>                   <span class="at">timeBinDuration_sec         =</span> timeBinduration_sec, </span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>                   <span class="at">timeZone                    =</span> targetTimeZone, </span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>                   <span class="at">sunriseSunset               =</span> dbData<span class="sc">$</span>sunriseSunset, </span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>                   <span class="at">sunOrCivil                  =</span> sunOrCivil,</span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>                   <span class="at">protocolData                =</span> dbData<span class="sc">$</span>protocolData,</span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>                   <span class="at">visibilityData              =</span> dbData<span class="sc">$</span>visibilityData,</span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>                   <span class="at">manualBlindTimes            =</span> cManualBlindTimes, </span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>                   <span class="at">saveBlindTimes              =</span> saveBlindTimes,</span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>                   <span class="at">blindTimesOutputDir         =</span> mainOutputDir,</span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>                   <span class="at">blindTimeAsMtrZero          =</span> blindTimeAsMtrZero,</span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>                   <span class="at">propObsTimeCutoff           =</span> propObsTimeCutoff, </span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>                   <span class="at">computePerDayNight          =</span> computePerDayNight,</span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>                   <span class="at">computeAltitudeDistribution =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the mTR to file, if requested</span></span>
-<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a><span class="co"># =====================================================================</span></span>
-<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (saveMTR2File){</span>
-<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (computePerDayNight){</span>
-<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>      outputFile <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">&quot;mtr_&quot;</span>, dbName, </span>
-<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;_alt&quot;</span>, <span class="fu">paste</span>(altitudeRange.mtr, </span>
-<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">collapse =</span> <span class="st">&quot;to&quot;</span>), </span>
-<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;per&quot;</span>, altitudeBinSize, <span class="st">&quot;m_&quot;</span>, </span>
-<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;time&quot;</span>, </span>
-<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">paste</span>(<span class="fu">format</span>(<span class="fu">as.Date</span>(timeRangesTimeBins), <span class="st">&quot;%Y%m%d&quot;</span>), </span>
-<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">collapse =</span> <span class="st">&quot;to&quot;</span>), </span>
-<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;perDayNight_&quot;</span>, </span>
-<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;cut&quot;</span>, propObsTimeCutoff, <span class="st">&quot;.rds&quot;</span>)</span>
-<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
-<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>      outputFile <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">&quot;mtr_&quot;</span>, dbName, </span>
-<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;_alt&quot;</span>, <span class="fu">paste</span>(altitudeRange.mtr, </span>
-<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">collapse =</span> <span class="st">&quot;to&quot;</span>), </span>
-<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;per&quot;</span>, altitudeBinSize, <span class="st">&quot;m_&quot;</span>, </span>
-<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;time&quot;</span>, <span class="fu">paste</span>(<span class="fu">format</span>(<span class="fu">as.Date</span>(timeRangesTimeBins), <span class="st">&quot;%Y%m%d&quot;</span>), </span>
-<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">collapse =</span> <span class="st">&quot;to&quot;</span>), </span>
-<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;per&quot;</span>, timeBinduration_sec, <span class="st">&quot;s_&quot;</span>, </span>
-<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;cut&quot;</span>, propObsTimeCutoff, <span class="st">&quot;.rds&quot;</span>)</span>
-<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>    <span class="fu">saveMTR</span>(<span class="at">mtr                =</span> mtr, </span>
-<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>            <span class="at">filepath           =</span> mainOutputDir,</span>
-<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>            <span class="at">fileName           =</span> outputFile)</span>
-<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Print information message</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co"># =====================================================================</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="cf">if</span> (computePerDayNight){</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>    <span class="fu">message</span>(<span class="fu">paste0</span>(<span class="st">&quot;Computing MTR for &quot;</span>, dbName, <span class="st">&quot;, using:</span><span class="sc">\n</span><span class="st">&quot;</span>, </span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>                   <span class="st">&quot;Classes: &quot;</span>, <span class="fu">paste</span>(classSelection.mtr, <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>                   <span class="st">&quot;For altitudes: &quot;</span>, <span class="fu">paste</span>(altitudeRange.mtr, <span class="at">collapse =</span> <span class="st">&quot; to &quot;</span>), </span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>                   <span class="st">&quot; in bins of &quot;</span>, altitudeBinSize, <span class="st">&quot;m</span><span class="sc">\n</span><span class="st">&quot;</span>, </span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>                   <span class="st">&quot;on a nightly/daily basis&quot;</span>))</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>    <span class="fu">message</span>(<span class="fu">paste0</span>(<span class="st">&quot;Computing MTR for &quot;</span>, dbName, <span class="st">&quot;, using:</span><span class="sc">\n</span><span class="st">&quot;</span>, </span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>                   <span class="st">&quot;Classes: &quot;</span>, <span class="fu">paste</span>(classSelection.mtr, <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>                   <span class="st">&quot;For altitudes: &quot;</span>, <span class="fu">paste</span>(altitudeRange.mtr, <span class="at">collapse =</span> <span class="st">&quot; to &quot;</span>), </span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>                   <span class="st">&quot; in bins of &quot;</span>, altitudeBinSize, <span class="st">&quot;m</span><span class="sc">\n</span><span class="st">&quot;</span>, </span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>                   <span class="st">&quot;Timebins of: &quot;</span>, timeBinduration_sec, <span class="st">&quot; seconds or &quot;</span>,</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>                   timeBinduration_sec<span class="sc">/</span><span class="dv">3600</span>, <span class="st">&quot; hours&quot;</span>))</span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>  }</span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co"># Calculate the MTR</span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co"># =====================================================================</span></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a>  mtr <span class="ot">=</span> <span class="fu">computeMTR</span>(<span class="at">dbName                      =</span> dbName,</span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a>                   <span class="at">echoes                      =</span> dbData<span class="sc">$</span>echoData, </span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a>                   <span class="at">classSelection              =</span> classSelection.mtr, </span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a>                   <span class="at">altitudeRange               =</span> altitudeRange.mtr,</span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a>                   <span class="at">altitudeBinSize             =</span> altitudeBinSize, </span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a>                   <span class="at">timeRange                   =</span> timeRangesTimeBins, </span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a>                   <span class="at">timeBinDuration_sec         =</span> timeBinduration_sec, </span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a>                   <span class="at">timeZone                    =</span> targetTimeZone, </span>
+<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a>                   <span class="at">sunriseSunset               =</span> dbData<span class="sc">$</span>sunriseSunset, </span>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a>                   <span class="at">sunOrCivil                  =</span> sunOrCivil,</span>
+<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a>                   <span class="at">protocolData                =</span> dbData<span class="sc">$</span>protocolData,</span>
+<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a>                   <span class="at">visibilityData              =</span> dbData<span class="sc">$</span>visibilityData,</span>
+<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a>                   <span class="at">manualBlindTimes            =</span> cManualBlindTimes, </span>
+<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a>                   <span class="at">saveBlindTimes              =</span> saveBlindTimes,</span>
+<span id="cb5-34"><a href="#cb5-34" tabindex="-1"></a>                   <span class="at">blindTimesOutputDir         =</span> mainOutputDir,</span>
+<span id="cb5-35"><a href="#cb5-35" tabindex="-1"></a>                   <span class="at">blindTimeAsMtrZero          =</span> blindTimeAsMtrZero,</span>
+<span id="cb5-36"><a href="#cb5-36" tabindex="-1"></a>                   <span class="at">propObsTimeCutoff           =</span> propObsTimeCutoff, </span>
+<span id="cb5-37"><a href="#cb5-37" tabindex="-1"></a>                   <span class="at">computePerDayNight          =</span> computePerDayNight,</span>
+<span id="cb5-38"><a href="#cb5-38" tabindex="-1"></a>                   <span class="at">computeAltitudeDistribution =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-39"><a href="#cb5-39" tabindex="-1"></a></span>
+<span id="cb5-40"><a href="#cb5-40" tabindex="-1"></a><span class="co"># Save the mTR to file, if requested</span></span>
+<span id="cb5-41"><a href="#cb5-41" tabindex="-1"></a><span class="co"># =====================================================================</span></span>
+<span id="cb5-42"><a href="#cb5-42" tabindex="-1"></a>  <span class="cf">if</span> (saveMTR2File){</span>
+<span id="cb5-43"><a href="#cb5-43" tabindex="-1"></a>    <span class="cf">if</span> (computePerDayNight){</span>
+<span id="cb5-44"><a href="#cb5-44" tabindex="-1"></a>      outputFile <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">&quot;mtr_&quot;</span>, dbName, </span>
+<span id="cb5-45"><a href="#cb5-45" tabindex="-1"></a>                           <span class="st">&quot;_alt&quot;</span>, <span class="fu">paste</span>(altitudeRange.mtr, </span>
+<span id="cb5-46"><a href="#cb5-46" tabindex="-1"></a>                                         <span class="at">collapse =</span> <span class="st">&quot;to&quot;</span>), </span>
+<span id="cb5-47"><a href="#cb5-47" tabindex="-1"></a>                           <span class="st">&quot;per&quot;</span>, altitudeBinSize, <span class="st">&quot;m_&quot;</span>, </span>
+<span id="cb5-48"><a href="#cb5-48" tabindex="-1"></a>                           <span class="st">&quot;time&quot;</span>, </span>
+<span id="cb5-49"><a href="#cb5-49" tabindex="-1"></a>                           <span class="fu">paste</span>(<span class="fu">format</span>(<span class="fu">as.Date</span>(timeRangesTimeBins), <span class="st">&quot;%Y%m%d&quot;</span>), </span>
+<span id="cb5-50"><a href="#cb5-50" tabindex="-1"></a>                                 <span class="at">collapse =</span> <span class="st">&quot;to&quot;</span>), </span>
+<span id="cb5-51"><a href="#cb5-51" tabindex="-1"></a>                           <span class="st">&quot;perDayNight_&quot;</span>, </span>
+<span id="cb5-52"><a href="#cb5-52" tabindex="-1"></a>                           <span class="st">&quot;cut&quot;</span>, propObsTimeCutoff, <span class="st">&quot;.rds&quot;</span>)</span>
+<span id="cb5-53"><a href="#cb5-53" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb5-54"><a href="#cb5-54" tabindex="-1"></a>      outputFile <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">&quot;mtr_&quot;</span>, dbName, </span>
+<span id="cb5-55"><a href="#cb5-55" tabindex="-1"></a>                    <span class="st">&quot;_alt&quot;</span>, <span class="fu">paste</span>(altitudeRange.mtr, </span>
+<span id="cb5-56"><a href="#cb5-56" tabindex="-1"></a>                                  <span class="at">collapse =</span> <span class="st">&quot;to&quot;</span>), </span>
+<span id="cb5-57"><a href="#cb5-57" tabindex="-1"></a>                    <span class="st">&quot;per&quot;</span>, altitudeBinSize, <span class="st">&quot;m_&quot;</span>, </span>
+<span id="cb5-58"><a href="#cb5-58" tabindex="-1"></a>                    <span class="st">&quot;time&quot;</span>, <span class="fu">paste</span>(<span class="fu">format</span>(<span class="fu">as.Date</span>(timeRangesTimeBins), <span class="st">&quot;%Y%m%d&quot;</span>), </span>
+<span id="cb5-59"><a href="#cb5-59" tabindex="-1"></a>                                  <span class="at">collapse =</span> <span class="st">&quot;to&quot;</span>), </span>
+<span id="cb5-60"><a href="#cb5-60" tabindex="-1"></a>                    <span class="st">&quot;per&quot;</span>, timeBinduration_sec, <span class="st">&quot;s_&quot;</span>, </span>
+<span id="cb5-61"><a href="#cb5-61" tabindex="-1"></a>                    <span class="st">&quot;cut&quot;</span>, propObsTimeCutoff, <span class="st">&quot;.rds&quot;</span>)</span>
+<span id="cb5-62"><a href="#cb5-62" tabindex="-1"></a>    }</span>
+<span id="cb5-63"><a href="#cb5-63" tabindex="-1"></a>    <span class="fu">saveMTR</span>(<span class="at">mtr                =</span> mtr, </span>
+<span id="cb5-64"><a href="#cb5-64" tabindex="-1"></a>            <span class="at">filepath           =</span> mainOutputDir,</span>
+<span id="cb5-65"><a href="#cb5-65" tabindex="-1"></a>            <span class="at">fileName           =</span> outputFile)</span>
+<span id="cb5-66"><a href="#cb5-66" tabindex="-1"></a>  }</span></code></pre></div>
 </div>
 <div id="create-some-plots-to-explore-the-calculated-activity-migration-traffic-rates" class="section level1">
 <h1>Create some plots to explore the calculated activity / migration
@@ -664,79 +664,79 @@ traffic rates</h1>
 functions to visualize and explore the MTR results.</p>
 <p>The function <code>plotLongitudinalMTR()</code> creates a time series
 plot of the MTR values (one per altitude bin in the MTR data):</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make time series plot</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Set time range for plots (in targetTimeZone) ; </span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># A plot is created for each timerange</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># use format &quot;yyyy-MM-dd hh:mm&quot;</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ===========================================================================</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    timeRangePlot  <span class="ot">=</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">&quot;2021-01-15 00:00&quot;</span>, <span class="st">&quot;2021-01-22 00:00&quot;</span>),</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">c</span>(<span class="st">&quot;2021-01-23 00:00&quot;</span>, <span class="st">&quot;2021-01-31 00:00&quot;</span>))</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Set output path for plots</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ===========================================================================</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    outputDir.plots <span class="ot">=</span> <span class="fu">file.path</span>(mainOutputDir, <span class="st">&quot;Plots&quot;</span>)</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Set the class of which the MTR data should be plotted. </span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># If not set or set to “allClasses”, MTR of all classes will be plotted.</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ===========================================================================</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    plotClass <span class="ot">=</span> <span class="st">&quot;allClasses&quot;</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Set the maximum value of the y-Scale of the plot to the given value. </span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># If negative or not set, the y-Scale is auto-scaled.</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ===========================================================================</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    maxMTR.plot <span class="ot">=</span> <span class="sc">-</span><span class="dv">1</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Set the propObsTimeCutOff for the plot</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Time bins with a proportional observation time smaller than </span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  <span class="co"># propObsTimeCutoff will not be shown in the plot</span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ===========================================================================</span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    propObsTimeCutoff.plot <span class="ot">=</span> <span class="fl">0.2</span></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Set if the spread (first and third quartile) should be plotted</span></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ===========================================================================</span></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    plotSpread <span class="ot">=</span> <span class="cn">TRUE</span></span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Print message</span></span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ===========================================================================</span></span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">message</span>(<span class="st">&quot;Plotting time series of MTR values..&quot;</span>) </span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Make Plot </span></span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ===========================================================================</span></span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plotLongitudinalMTR</span>(<span class="at">mtr               =</span> mtr, </span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>                        <span class="at">maxMTR            =</span> maxMTR.plot, </span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>                        <span class="at">timeRange         =</span> timeRangePlot,</span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>                        <span class="at">targetTimeZone    =</span> <span class="st">&quot;Etc/GMT0&quot;</span>,</span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>                        <span class="at">plotClass         =</span> plotClass,</span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>                        <span class="at">propObsTimeCutoff =</span> propObsTimeCutoff.plot,</span>
-<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>                        <span class="at">plotSpread        =</span> plotSpread, </span>
-<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>                        <span class="at">filePath          =</span> outputDir.plots) </span>
-<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>  </span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Make time series plot</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="co"># Set time range for plots (in targetTimeZone) ; </span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="co"># A plot is created for each timerange</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="co"># use format &quot;yyyy-MM-dd hh:mm&quot;</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  <span class="co"># ===========================================================================</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>    timeRangePlot  <span class="ot">=</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">&quot;2021-01-15 00:00&quot;</span>, <span class="st">&quot;2021-01-22 00:00&quot;</span>),</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>                          <span class="fu">c</span>(<span class="st">&quot;2021-01-23 00:00&quot;</span>, <span class="st">&quot;2021-01-31 00:00&quot;</span>))</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>    </span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>  <span class="co"># Set output path for plots</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>  <span class="co"># ===========================================================================</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>    outputDir.plots <span class="ot">=</span> <span class="fu">file.path</span>(mainOutputDir, <span class="st">&quot;Plots&quot;</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>    </span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>  <span class="co"># Set the class of which the MTR data should be plotted. </span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>  <span class="co"># If not set or set to “allClasses”, MTR of all classes will be plotted.</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>  <span class="co"># ===========================================================================</span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>    plotClass <span class="ot">=</span> <span class="st">&quot;allClasses&quot;</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a>    </span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a>  <span class="co"># Set the maximum value of the y-Scale of the plot to the given value. </span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a>  <span class="co"># If negative or not set, the y-Scale is auto-scaled.</span></span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a>  <span class="co"># ===========================================================================</span></span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a>    maxMTR.plot <span class="ot">=</span> <span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a></span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a>  <span class="co"># Set the propObsTimeCutOff for the plot</span></span>
+<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a>  <span class="co"># Time bins with a proportional observation time smaller than </span></span>
+<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a>  <span class="co"># propObsTimeCutoff will not be shown in the plot</span></span>
+<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a>  <span class="co"># ===========================================================================</span></span>
+<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a>    propObsTimeCutoff.plot <span class="ot">=</span> <span class="fl">0.2</span></span>
+<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a>    </span>
+<span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a>  <span class="co"># Set if the spread (first and third quartile) should be plotted</span></span>
+<span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a>  <span class="co"># ===========================================================================</span></span>
+<span id="cb6-32"><a href="#cb6-32" tabindex="-1"></a>    plotSpread <span class="ot">=</span> <span class="cn">TRUE</span></span>
+<span id="cb6-33"><a href="#cb6-33" tabindex="-1"></a>    </span>
+<span id="cb6-34"><a href="#cb6-34" tabindex="-1"></a>  <span class="co"># Print message</span></span>
+<span id="cb6-35"><a href="#cb6-35" tabindex="-1"></a>  <span class="co"># ===========================================================================</span></span>
+<span id="cb6-36"><a href="#cb6-36" tabindex="-1"></a>    <span class="fu">message</span>(<span class="st">&quot;Plotting time series of MTR values..&quot;</span>) </span>
+<span id="cb6-37"><a href="#cb6-37" tabindex="-1"></a></span>
+<span id="cb6-38"><a href="#cb6-38" tabindex="-1"></a>  <span class="co"># Make Plot </span></span>
+<span id="cb6-39"><a href="#cb6-39" tabindex="-1"></a>  <span class="co"># ===========================================================================</span></span>
+<span id="cb6-40"><a href="#cb6-40" tabindex="-1"></a>    <span class="fu">plotLongitudinalMTR</span>(<span class="at">mtr               =</span> mtr, </span>
+<span id="cb6-41"><a href="#cb6-41" tabindex="-1"></a>                        <span class="at">maxMTR            =</span> maxMTR.plot, </span>
+<span id="cb6-42"><a href="#cb6-42" tabindex="-1"></a>                        <span class="at">timeRange         =</span> timeRangePlot,</span>
+<span id="cb6-43"><a href="#cb6-43" tabindex="-1"></a>                        <span class="at">targetTimeZone    =</span> <span class="st">&quot;Etc/GMT0&quot;</span>,</span>
+<span id="cb6-44"><a href="#cb6-44" tabindex="-1"></a>                        <span class="at">plotClass         =</span> plotClass,</span>
+<span id="cb6-45"><a href="#cb6-45" tabindex="-1"></a>                        <span class="at">propObsTimeCutoff =</span> propObsTimeCutoff.plot,</span>
+<span id="cb6-46"><a href="#cb6-46" tabindex="-1"></a>                        <span class="at">plotSpread        =</span> plotSpread, </span>
+<span id="cb6-47"><a href="#cb6-47" tabindex="-1"></a>                        <span class="at">filePath          =</span> outputDir.plots) </span>
+<span id="cb6-48"><a href="#cb6-48" tabindex="-1"></a>  </span></code></pre></div>
 <p>With the second plotting function <code>plotExploration()</code> you
 can create a time series plot of the detected objects. Each object is
 shown at the respective height (m above ground level) and time:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make an exploration plot</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Set  the maximum value of the y-Scale of the plot to the given value. </span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># If negative or not set, the y-Scale is auto-scaled.</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    maxAltitude.plot <span class="ot">=</span> <span class="sc">-</span><span class="dv">1</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Print message</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ===========================================================================</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">message</span>(<span class="st">&quot;Plotting exploration..&quot;</span>)</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Make Plot </span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ===========================================================================</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plotExploration</span>(<span class="at">echoData         =</span> dbData<span class="sc">$</span>echoData, </span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>                    <span class="at">timeRange        =</span> timeRangePlot, </span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>                    <span class="at">targetTimeZone   =</span> <span class="st">&quot;Etc/GMT0&quot;</span>,</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>                    <span class="at">manualBlindTimes =</span> cManualBlindTimes, </span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>                    <span class="at">visibilityData   =</span> dbData<span class="sc">$</span>visibilityData, </span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>                    <span class="at">protocolData     =</span> dbData<span class="sc">$</span>protocolData, </span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>                    <span class="at">sunriseSunset    =</span> dbData<span class="sc">$</span>sunriseSunset, </span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>                    <span class="at">maxAltitude      =</span> maxAltitude.plot, </span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>                    <span class="at">filePath         =</span> outputDir.plots) </span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  </span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Make an exploration plot</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="co"># Set  the maximum value of the y-Scale of the plot to the given value. </span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="co"># If negative or not set, the y-Scale is auto-scaled.</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>    maxAltitude.plot <span class="ot">=</span> <span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>    </span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>  <span class="co"># Print message</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>  <span class="co"># ===========================================================================</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>    <span class="fu">message</span>(<span class="st">&quot;Plotting exploration..&quot;</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>  <span class="co"># Make Plot </span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>  <span class="co"># ===========================================================================</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>    <span class="fu">plotExploration</span>(<span class="at">echoData         =</span> dbData<span class="sc">$</span>echoData, </span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>                    <span class="at">timeRange        =</span> timeRangePlot, </span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a>                    <span class="at">targetTimeZone   =</span> <span class="st">&quot;Etc/GMT0&quot;</span>,</span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>                    <span class="at">manualBlindTimes =</span> cManualBlindTimes, </span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>                    <span class="at">visibilityData   =</span> dbData<span class="sc">$</span>visibilityData, </span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a>                    <span class="at">protocolData     =</span> dbData<span class="sc">$</span>protocolData, </span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a>                    <span class="at">sunriseSunset    =</span> dbData<span class="sc">$</span>sunriseSunset, </span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a>                    <span class="at">maxAltitude      =</span> maxAltitude.plot, </span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a>                    <span class="at">filePath         =</span> outputDir.plots) </span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a>  </span></code></pre></div>
 </div>
 
 

@@ -1,10 +1,10 @@
-## ---- echo = FALSE------------------------------------------------------------
+## ----echo = FALSE-------------------------------------------------------------
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 
 ## -----------------------------------------------------------------------------
   library(birdscanR)
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  # Set main output directory
 #  # =============================================================================
 #    mainOutputDir = file.path(".", "results")
@@ -126,7 +126,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 #    # Set whether to save the MTR to file
 #      saveMTR2File = TRUE
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  # Print progress message
 #  # =============================================================================
 #    message(paste0("Extracting data from ", dbName))
@@ -148,7 +148,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 #  # =============================================================================
 #    message(paste0("Finished extracting data from ", dbName))
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  # Print progress message
 #  # =============================================================================
 #    message(paste0("Filtering data from ", dbName))
@@ -216,7 +216,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 #    message(paste0("Finished filtering data from ", dbName))
 #  
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  # Print information message
 #  # =====================================================================
 #    if (computePerDayNight){
@@ -285,7 +285,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 #    }
 #  
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  # Make time series plot
 #  # =============================================================================
 #    # Set time range for plots (in targetTimeZone) ;
@@ -335,7 +335,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 #                          filePath          = outputDir.plots)
 #  
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  # Make an exploration plot
 #  # =============================================================================
 #    # Set  the maximum value of the y-Scale of the plot to the given value.
